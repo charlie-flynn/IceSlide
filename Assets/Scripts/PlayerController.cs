@@ -59,34 +59,45 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        // if no rigidbody, return
         if (!_rigidbody) return;
 
+        // calculate the movement and rotation force based on speed values and delta time
         float movementForce = _playerInput.z * _speed * Time.deltaTime;
         float rotationForce = _playerInput.x * _rotationSpeed * Time.deltaTime;
 
+        // rotate
         Vector3 newRotation = new Vector3();
         newRotation.y = rotationForce;
         gameObject.transform.Rotate(newRotation);
 
+        // move
         _rigidbody.AddForce(_rigidbody.transform.forward * movementForce, ForceMode.VelocityChange);
 
+        // if there is no movementForce, deccelerate based on decceleration value and delta time
         if (movementForce == 0)
         {
-            Vector3 deccelerationForce = new Vector3(_rigidbody.velocity.x, 0, _rigidbody.velocity.z) * _decceleration * -1;
+            Vector3 deccelerationForce = new Vector3(_rigidbody.velocity.x, 0, _rigidbody.velocity.z) * _decceleration * -1 * Time.deltaTime;
             _rigidbody.AddForce(deccelerationForce, ForceMode.Acceleration);
         }
 
+        // clamp velocity
         Vector3 newVelocity = _rigidbody.velocity;
+        Mathf.Clamp(newVelocity.x, -_maxSpeed, _maxSpeed);
+        Mathf.Clamp(newVelocity.y, -_maxSpeed, _maxSpeed);
         Mathf.Clamp(newVelocity.z, -_maxSpeed, _maxSpeed);
         _rigidbody.velocity = newVelocity;
     }
 
     private void OnTriggerStay(Collider other)
     {
+        // get the material this is standing on
         if (other.gameObject.GetComponent<Renderer>())
             _materialStandingOn = other.gameObject.GetComponent<Renderer>().material;
 
-        if (_materialStandingOn.name.StartsWith("IceMat"))
+        // if the material this is standing on is ice, set values to their ice version
+        // blEck. sorry im allergic to string comparison. unless this function doesnt do that
+        if (_materialStandingOn.name.StartsWith("Ice"))
         {
             _maxSpeed = _maxIceSpeed;
             _rotationSpeed = _iceRotationSpeed;
