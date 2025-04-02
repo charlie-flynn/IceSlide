@@ -253,6 +253,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6cefac1ead9e20148a864e6f4ec23ca1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OnPlayerDeath:
+  _meshObject: {fileID: 3105879870975299669}
+  OnPlayerDisable:
     m_PersistentCalls:
       m_Calls: []

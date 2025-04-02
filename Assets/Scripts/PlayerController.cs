@@ -67,11 +67,10 @@ public class PlayerController : MonoBehaviour
         Vector3 movementForce = _playerInput * _acceleration * Time.deltaTime;
 
         // use decceleration if moving away from the current velocity
-        if (Vector3.Angle(movementForce, _rigidbody.velocity) > 160)
+        if (movementForce != new Vector3() && Vector3.Angle(movementForce, _rigidbody.velocity) > 160)
             movementForce = _playerInput * _decceleration * Time.deltaTime;
 
-        // if velocity greater than max speed, deccelerate by the difference
-        // this is a really convoluted way of doing it but it works !  so uh. :shrug:
+        // clamps the velocity
         if (_rigidbody.velocity.magnitude > _maxSpeed)
         {
             Vector3 deccelerateForce = _rigidbody.velocity;
