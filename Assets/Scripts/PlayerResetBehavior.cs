@@ -6,6 +6,7 @@ using UnityEngine.Events;
 public class PlayerResetBehavior : MonoBehaviour
 {
     [SerializeField]
+    [Tooltip("The amount the Y value must be below in order to be automatically reset.")]
     private float _resetThreshold = -5.0f;
 
     private Vector3 _resetPosition;
@@ -27,14 +28,19 @@ public class PlayerResetBehavior : MonoBehaviour
 
     void Update()
     {
-        // if the object has fallen below the threshold, put it back where it was and remove its velocity (if it has any)
         if (gameObject.transform.position.y < _resetThreshold)
-        {
-            gameObject.transform.position = _resetPosition;
-            OnReset.Invoke();
+            Restart();
+    }
 
-            if (_rigidbody)
-                _rigidbody.velocity = new Vector3();
-        }
+    // had to name this restart because unity already had a reset function
+    public void Restart()
+    {
+        // put the gameObject back where it was and remove its velocity (if it has a rigidbody)
+        gameObject.transform.position = _resetPosition;
+
+        if (_rigidbody)
+            _rigidbody.velocity = new Vector3();
+
+        OnReset.Invoke();
     }
 }

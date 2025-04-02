@@ -3,20 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class PlayerDisableBehavior : MonoBehaviour
+public class PlayerWinBehavior : MonoBehaviour
 {
     [SerializeField]
     private GameObject _meshObject;
 
     private bool _isDisabled = false;
 
-    public UnityEvent OnPlayerDisable;
+    public UnityEvent OnPlayerWin;
 
-    public void Disable()
+    public void Win()
     {
         if (_isDisabled) return;
 
-        OnPlayerDisable.Invoke();
+        OnPlayerWin.Invoke();
 
         if (gameObject.TryGetComponent(out PlayerController controller))
             controller.enabled = false;
@@ -32,5 +32,10 @@ public class PlayerDisableBehavior : MonoBehaviour
             rigidbody.isKinematic = true;
         else
             Debug.LogWarning("PlayerDisableBehavior: No Rigidbody to make kinematic.");
+
+        if (gameObject.TryGetComponent(out PlayerTimerBehavior timer))
+            timer.enabled = false;
+        else
+            Debug.LogWarning("PlayerDisableBehavior: No PlayerTimerBehavior to disable.");
     }
 }
