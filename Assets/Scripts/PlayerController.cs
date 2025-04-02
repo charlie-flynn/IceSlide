@@ -35,18 +35,20 @@ public class PlayerController : MonoBehaviour
 
     private Vector3 _playerInput;
 
+    private void Awake()
+    {
+        if (gameObject.GetComponent<Rigidbody>())
+            _rigidbody = gameObject.GetComponent<Rigidbody>();
+        else
+            Debug.LogError("PlayerController: Attached object has no Rigidbody component! Most of this script will not work without one!");
+    }
+
     // Start is called before the first frame update
     void Start()
     {
         _acceleration = _regularAcceleration;
         _decceleration = _regularDecceleration;
         _maxSpeed = _regularMaxSpeed;
-
-        if (gameObject.GetComponent<Rigidbody>())
-            _rigidbody = gameObject.GetComponent<Rigidbody>();
-        else
-            Debug.LogError("PlayerController: Attached object has no Rigidbody component! Most of this script will not work without one!");
-
     }
 
     private void Update()
