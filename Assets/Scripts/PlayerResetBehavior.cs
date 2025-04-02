@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class PlayerResetBehavior : MonoBehaviour
 {
@@ -10,6 +11,8 @@ public class PlayerResetBehavior : MonoBehaviour
     private Vector3 _resetPosition;
 
     private Rigidbody _rigidbody;
+
+    public UnityEvent OnReset;
 
     private void Awake()
     {
@@ -24,9 +27,12 @@ public class PlayerResetBehavior : MonoBehaviour
 
     void Update()
     {
+        // if the object has fallen below the threshold, put it back where it was and remove its velocity (if it has any)
         if (gameObject.transform.position.y < _resetThreshold)
         {
             gameObject.transform.position = _resetPosition;
+            OnReset.Invoke();
+
             if (_rigidbody)
                 _rigidbody.velocity = new Vector3();
         }

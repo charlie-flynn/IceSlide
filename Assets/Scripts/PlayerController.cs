@@ -35,6 +35,8 @@ public class PlayerController : MonoBehaviour
 
     private Vector3 _playerInput;
 
+    private bool _onGround;
+
     private void Awake()
     {
         if (gameObject.GetComponent<Rigidbody>())
@@ -49,15 +51,22 @@ public class PlayerController : MonoBehaviour
         _acceleration = _regularAcceleration;
         _decceleration = _regularDecceleration;
         _maxSpeed = _regularMaxSpeed;
+        _onGround = true;
     }
 
     private void Update()
     {
+        // take in player input
         _playerInput.x = Input.GetAxisRaw("Horizontal");
         _playerInput.z = Input.GetAxisRaw("Vertical");
 
-        // clamp velocity
+        // if y velocity is goin up and the player is not on the ground, remove the upward velocity
         Vector3 newVelocity = _rigidbody.velocity;
+        if (!_onGround && newVelocity.y > 0.0f)
+        {
+            newVelocity.y = 0.0f;
+            _rigidbody.velocity = newVelocity;
+        }
     }
 
     private void FixedUpdate()
@@ -72,7 +81,7 @@ public class PlayerController : MonoBehaviour
         if (movementForce != new Vector3() && Vector3.Angle(movementForce, _rigidbody.velocity) > 160)
             movementForce = _playerInput * _decceleration * Time.deltaTime;
 
-        // clamps the velocity
+        // clamps the velocity to the given max speed value
         if (_rigidbody.velocity.magnitude > _maxSpeed)
         {
             Vector3 deccelerateForce = _rigidbody.velocity;
@@ -105,7 +114,6 @@ public class PlayerController : MonoBehaviour
             Vector3 deccelerationForce = new Vector3(_rigidbody.velocity.x, 0, 0) * _decceleration * -1 * Time.deltaTime;
             _rigidbody.AddForce(deccelerationForce, ForceMode.Acceleration);
         }
-
         if (movementForce.z == 0)
         {
             Vector3 deccelerationForce = new Vector3(0, 0, _rigidbody.velocity.z) * _decceleration * -1 * Time.deltaTime;
@@ -137,6 +145,9 @@ public class PlayerController : MonoBehaviour
         _rigidbody.AddForce(_rigidbody.transform.forward * movementForce, ForceMode.VelocityChange);
          */
     }
+
+    private void OnTriggerEnter(Collider other) { _onGround = true; }
+    private void OnTriggerExit(Collider other) { _onGround = false; }
 
     private void OnTriggerStay(Collider other)
     {
