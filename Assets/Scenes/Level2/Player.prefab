@@ -61,7 +61,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 7ca93cb2bc9717b47be6b46be81457e8, type: 2}
+  - {fileID: 2100000, guid: ab6f06002b659a04c9799236ec02655e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -123,7 +123,7 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6671555653380607261}
-  m_Material: {fileID: 13400000, guid: 7c8fdaf7e25d07149b18ad54c2122b8e, type: 2}
+  m_Material: {fileID: 13400000, guid: 4565756d00171a04bb0911119fefd9d6, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -146,7 +146,7 @@ SphereCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6671555653380607261}
-  m_Material: {fileID: 13400000, guid: 7c8fdaf7e25d07149b18ad54c2122b8e, type: 2}
+  m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -158,8 +158,8 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.52
-  m_Center: {x: 0, y: -0.54, z: 0}
+  m_Radius: 0.47
+  m_Center: {x: 0, y: -0.57, z: 0}
 --- !u!1 &9001835548184651853
 GameObject:
   m_ObjectHideFlags: 0
