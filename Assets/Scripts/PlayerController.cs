@@ -12,7 +12,7 @@ public class PlayerController : MonoBehaviour
     private float _iceAcceleration = 40.0f;
 
     [SerializeField]
-    private float _regularDecceleration = 100.0f;
+    private float _regularDecceleration = 60.0f;
 
     [SerializeField]
     private float _iceDecceleration = 5.0f;
@@ -77,9 +77,9 @@ public class PlayerController : MonoBehaviour
         // calculate the movement force based on speed values and delta time
         Vector3 movementForce = _playerInput * _acceleration * Time.deltaTime;
 
-        // use decceleration if moving away from the current velocity
+        // use doubled decceleration if moving away from the current velocity
         if (movementForce != new Vector3() && Vector3.Angle(movementForce, _rigidbody.velocity) > 160)
-            movementForce = _playerInput * _decceleration * Time.deltaTime;
+            movementForce = _playerInput * _decceleration * 2 * Time.deltaTime;
 
         // clamps the velocity to the given max speed value
         if (_rigidbody.velocity.magnitude > _maxSpeed)
@@ -151,9 +151,12 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
+        _onGround = true;
+
         // get the material this is standing on
         if (other.gameObject.GetComponent<Renderer>())
             _materialStandingOn = other.gameObject.GetComponent<Renderer>().material;
+
 
         // if the material this is standing on is ice, set values to their ice version
         // blEck. sorry im allergic to string comparison. unless this function doesnt do that
